@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - Campus Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">🎓</div>
+                Campus Connect
+            </a>
+            <div class="nav-links" id="nav-auth">
+                <a href="login.html" class="nav-link">Log In</a>
+                <a href="register.html" class="nav-link">Sign Up</a>
+            </div>
+            <div class="nav-user hidden" id="nav-user">
+                <a href="edit_profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <img src="uploads/default-avatar.png" class="nav-avatar" id="nav-avatar" alt="Profile">
+                    <span class="nav-user-name" id="nav-name"></span>
+                </a>
+                <button class="btn-logout" onclick="logout()" title="Logout">🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="edit-profile-container">
+        <div class="edit-profile-card">
+            <h2>✏️ Edit Your Profile</h2>
+
+            <div class="alert alert-error" id="profile-alert"></div>
+
+            <form id="edit-profile-form">
+                <!-- Profile Image -->
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div class="profile-image-upload">
+                        <img src="uploads/default-avatar.png" id="edit-avatar-preview" alt="Profile">
+                        <label for="edit-avatar-input">📷</label>
+                        <input type="file" name="profile_image" id="edit-avatar-input" accept="image/*">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Full Name *</label>
+                        <input type="text" name="name" id="edit-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Department</label>
+                        <input type="text" name="department" id="edit-dept" class="form-input" placeholder="e.g., Computer Science">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bio</label>
+                    <textarea name="bio" id="edit-bio" class="form-input" rows="3" placeholder="Tell us about yourself..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <!-- Location Picker -->
+                    <div class="form-group">
+                        <label class="form-label">📍 City / Location</label>
+                        <div class="location-picker">
+                            <div class="location-input-wrapper">
+                                <span class="icon">🔍</span>
+                                <input type="text" 
+                                       id="edit-location-input" 
+                                       class="location-input" 
+                                       placeholder="Search your city..."
+                                       data-dropdown="edit-location-dropdown"
+                                       autocomplete="off">
+                            </div>
+                            <div class="location-dropdown" id="edit-location-dropdown"></div>
+                            <div id="edit-location-display" style="display: none;"></div>
+                        </div>
+                        <div style="margin-top: 8px;">
+                            <button type="button" class="btn-primary" style="padding: 8px 16px; font-size: 13px;" onclick="useCurrentLocation()">
+                                📍 Detect My Location
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Feeling -->
+                    <div class="form-group">
+                        <label class="form-label">Current Feeling</label>
+                        <div style="position: relative;">
+                            <button type="button" id="feeling-btn-edit" class="form-input" style="text-align: left; cursor: pointer; background: white;">
+                                😊 Select a feeling...
+                            </button>
+                            <div class="feeling-selector" id="feeling-selector-edit" style="width: 100%; top: 100%; margin-top: 4px;"></div>
+                        </div>
+                        <div id="selected-feeling-edit" style="margin-top: 8px;"></div>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="submit" class="btn-primary" style="flex: 1;">💾 Save Changes</button>
+                    <a href="home.html" class="btn-full" style="flex: 1; text-align: center; text-decoration: none; background: var(--hover-bg); color: var(--text-primary); padding: 12px; border-radius: 6px; font-weight: 600;">← Back to Home</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initEditProfile();
+            initNavbar();
+
+            // Init location picker for edit page
+            initLocationPicker('edit-location-input', 'edit-location-dropdown', (loc) => {
+                console.log('Selected location:', loc);
+            });
+        });
+    </script>
+</body>
+</html>

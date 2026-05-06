@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Campus Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">🎓</div>
+                Campus Connect
+            </a>
+            <div class="nav-links" id="nav-auth">
+                <a href="login.html" class="nav-link">Log In</a>
+                <a href="register.html" class="nav-link">Sign Up</a>
+            </div>
+            <div class="nav-user hidden" id="nav-user">
+                <a href="edit_profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <img src="uploads/default-avatar.png" class="nav-avatar" id="nav-avatar" alt="Profile">
+                    <span class="nav-user-name" id="nav-name"></span>
+                </a>
+                <button class="btn-logout" onclick="logout()" title="Logout"><strong>Logout</strong>🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container" style="grid-template-columns: 1fr; max-width: 900px;">
+        <!-- View Profile Header -->
+        <div class="view-profile-header">
+            <div class="view-profile-cover"></div>
+            <div class="view-profile-info">
+                <img src="uploads/default-avatar.png" class="view-profile-avatar" id="view-avatar" alt="Profile">
+                <div class="view-profile-details">
+                    <h1 class="view-profile-name" id="view-name">Loading...</h1>
+                    <p class="view-profile-meta" id="view-dept">Loading...</p>
+                    <p class="view-profile-meta" id="view-bio" style="margin-top: 4px;">Loading...</p>
+                    <div id="view-feeling" style="margin-top: 8px;"></div>
+                    <div class="view-profile-stats">
+                        <div class="view-profile-stat">
+                            <div class="view-profile-stat-value" id="view-posts-count">0</div>
+                            <div class="view-profile-stat-label">Posts</div>
+                        </div>
+                        <div class="view-profile-stat">
+                            <div class="view-profile-stat-value">0</div>
+                            <div class="view-profile-stat-label">Friends</div>
+                        </div>
+                        <div class="view-profile-stat">
+                            <div class="view-profile-stat-value" id="view-student-id">-</div>
+                            <div class="view-profile-stat-label">Student ID</div>
+                        </div>
+                    </div>
+                    <div style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;" id="view-joined"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Posts Section -->
+        <div class="profile-posts-section">
+            <h3>📝 Posts</h3>
+            <div id="view-posts">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Loading posts...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

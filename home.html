@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Campus Connect</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-content">
+            <a href="home.html" class="logo">
+                <div class="logo-icon">🎓</div>
+                Campus Connect
+            </a>
+            <div class="nav-links" id="nav-auth">
+                <a href="login.html" class="nav-link">Log In</a>
+                <a href="register.html" class="nav-link">Sign Up</a>
+            </div>
+            <div class="nav-user hidden" id="nav-user">
+                <a href="edit_profile.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <img src="uploads/default-avatar.png" class="nav-avatar" id="nav-avatar" alt="Profile">
+                    <span class="nav-user-name" id="nav-name"></span>
+                </a>
+                <button class="btn-logout" onclick="logout()" title="Logout">🚪</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar sidebar-left">
+            <div class="sidebar-card sidebar-profile">
+                <a href="edit_profile.html">
+                    <img src="uploads/default-avatar.png" class="sidebar-avatar" id="sidebar-avatar" alt="Profile">
+                </a>
+                <div class="sidebar-name" id="sidebar-name">Loading...</div>
+                <div class="sidebar-meta" id="sidebar-dept">Loading...</div>
+                <div id="sidebar-feeling" style="display: none; margin-top: 8px;"></div>
+                <div class="sidebar-bio" id="sidebar-bio">Loading...</div>
+                <div class="sidebar-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="sidebar-posts">0</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Friends</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Photos</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <ul class="sidebar-menu">
+                    <li><a href="home.html"><span class="icon">🏠</span> Home Feed</a></li>
+                    <li><a href="edit_profile.html"><span class="icon">✏️</span> Edit Profile</a></li>
+                    <li><a href="view_profile.html"><span class="icon">👤</span> View Profile</a></li>
+                    <li id="admin-link" style="display: none;"><a href="admin.html" class="admin-link"><span class="icon">🔧</span> Admin Panel</a></li>
+                    <li><a href="#"><span class="icon">📚</span> My Courses</a></li>
+                    <li><a href="#"><span class="icon">📅</span> Events</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Feed -->
+        <main class="feed">
+            <!-- Create Post -->
+            <div class="card create-post">
+                <form id="create-post-form">
+                    <div class="create-post-top">
+                        <img src="uploads/default-avatar.png" class="card-avatar" id="create-post-avatar" alt="You">
+                        <textarea name="content" class="create-post-input" placeholder="What's on your mind?" rows="2" required></textarea>
+                    </div>
+                    <div id="selected-feeling-display" style="display: none; padding: 0 16px;"></div>
+                    <div id="post-location-display" style="display: none; padding: 0 16px;"></div>
+                    <div class="image-preview" id="image-preview">
+                        <img src="" id="preview-img" alt="Preview">
+                        <button type="button" class="remove-image" id="remove-image">×</button>
+                    </div>
+                    <div class="create-post-actions">
+                        <div class="post-options">
+                            <label class="post-option">
+                                <input type="file" name="image" id="post-image" accept="image/*">
+                                <span>📷</span> Photo
+                            </label>
+                            <button type="button" class="post-option" id="feeling-btn" style="background: none; border: none; font-family: inherit;">
+                                <span>😊</span> Feeling
+                            </button>
+                            <button type="button" class="post-option" id="location-btn" style="background: none; border: none; font-family: inherit;">
+                                <span>📍</span> Location
+                            </button>
+                        </div>
+                        <div class="feeling-selector" id="feeling-selector" style="position: absolute; bottom: 50px; left: 0;"></div>
+                        <div class="location-picker" id="post-location-picker" style="display: none; position: absolute; bottom: 50px; left: 0; right: 0; background: white; border: 1px solid var(--border-color); border-radius: var(--radius); padding: 12px; z-index: 50; box-shadow: var(--shadow-card);">
+                            <div class="location-input-wrapper">
+                                <span class="icon">🔍</span>
+                                <input type="text" id="post-location-input" class="location-input" placeholder="Search location..." data-dropdown="post-location-dropdown" autocomplete="off" style="border: none; background: var(--bg-color);">
+                            </div>
+                            <div class="location-dropdown" id="post-location-dropdown" style="position: relative; margin-top: 8px; max-height: 200px;"></div>
+                            <button type="button" class="btn-primary" style="margin-top: 8px; width: 100%; font-size: 13px;" onclick="useCurrentLocation()">📍 Use My Current Location</button>
+                        </div>
+                        <button type="submit" class="btn-primary">Post</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Posts Feed -->
+            <div id="posts-feed">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Loading posts...
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar sidebar-right">
+            <!-- Announcements -->
+            <div class="sidebar-card">
+                <h3 style="font-size: 16px; margin-bottom: 12px;">📢 Announcements</h3>
+                <div id="announcements-container">
+                    <div class="loading" style="padding: 20px;"><div class="spinner" style="width: 24px; height: 24px;"></div></div>
+                </div>
+            </div>
+
+            <!-- Friend Suggestions -->
+            <div class="sidebar-card">
+                <h3 style="font-size: 16px; margin-bottom: 12px;">👥 Suggested Friends</h3>
+                <div id="suggestions-container">
+                    <div class="loading" style="padding: 20px;"><div class="spinner" style="width: 24px; height: 24px;"></div></div>
+                </div>
+            </div>
+
+            <!-- Trending -->
+            <div class="sidebar-card">
+                <h3 style="font-size: 16px; margin-bottom: 12px;">🔥 Trending Topics</h3>
+                <div style="font-size: 14px; color: var(--text-secondary);">
+                    <p style="margin-bottom: 8px;">#CampusLife</p>
+                    <p style="margin-bottom: 8px;">#StudyGroup</p>
+                    <p style="margin-bottom: 8px;">#FinalsWeek</p>
+                    <p>#Graduation2026</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initHome();
+
+            // Init post location picker
+            initLocationPicker('post-location-input', 'post-location-dropdown', (loc) => {
+                const display = document.getElementById('post-location-display');
+                if (display) {
+                    display.innerHTML = `<span class="selected-location"><span>${loc.flag || '📍'}</span><span>${escapeHtml(loc.city)}${loc.country ? ', ' + escapeHtml(loc.country) : ''}</span><span class="remove" onclick="clearPostLocation()">&times;</span></span>`;
+                    display.style.display = 'block';
+                }
+                document.getElementById('post-location-picker').style.display = 'none';
+            });
+
+            // Location button toggle
+            const locationBtn = document.getElementById('location-btn');
+            const locationPicker = document.getElementById('post-location-picker');
+            if (locationBtn && locationPicker) {
+                locationBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    locationPicker.style.display = locationPicker.style.display === 'none' ? 'block' : 'none';
+                    if (locationPicker.style.display === 'block') {
+                        document.getElementById('post-location-input')?.focus();
+                    }
+                });
+            }
+        });
+
+        function clearPostLocation() {
+            selectedLocation = null;
+            document.getElementById('post-location-display').innerHTML = '';
+            document.getElementById('post-location-display').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
